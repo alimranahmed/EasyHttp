@@ -14,7 +14,7 @@ then execute `composer update`
 That's all!
 
 ## Usages
-```
+```php
 //Requesting signature/patterns
 Http::requestMethod($url, $data = [], $headers = []);
  
