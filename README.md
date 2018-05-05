@@ -22,10 +22,14 @@ Http::requestMethod($url, $data = [], $headers = []);
 $response = Http::get('www.example.com/get');
  
 //For POST Request
-$response = Http::post('www.example.com/post', ['key' => 'value'], ['Content-Type' => 'application/json');
+$data = ['key' => 'value'];
+$headers = ['Content-Type' => 'application/json'];
+$response = Http::post('www.example.com/post', $data, $headers);
  
 //For PUT request
-$response = Http::put('www.example.com/put', ['key' => 'value'], ['Content-Type' => 'application/json')
+$data = ['key' => 'value'];
+$headers = ['Content-Type' => 'application/json'];
+$response = Http::put('www.example.com/put', $data, $headers)
  
 //For DELETE request
 $response = Http::delete('www.example.com/delete');
