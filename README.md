@@ -9,7 +9,9 @@ Update your project's `composer.json` file as bellow:
     "alimranahmed/easyhttp": "dev-master"
 }
 ```
-then execute `composer update`, That's all
+then execute `composer update` 
+
+That's all!
 
 ## Usages
 ```
