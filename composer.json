@@ -7,7 +7,7 @@
     "laravel"
   ],
   "description": "An easier Http client for laravel",
-  "license": "Apache 2.0",
+  "license": "Apache-2.0",
   "authors": [
     {
       "name": "Al Imran Ahmed",
