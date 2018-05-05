@@ -2,31 +2,14 @@
 A Laravel HTTP-client to make HTTP request easier
 
 ## Installation 
-1. Update your project's `composer.json` file as bellow:
+Update your project's `composer.json` file as bellow:
 
-    ```
-    "require": {
-        "alimranahmed/easyhttp": "dev-master"
-    }
-    ```
-    then execute `composer update`
-    
-2. execute the following command to publish all relevant files:
-
-    ```
-    php artisan vendor:publish
-    ```
-
-3. Add the following line in the `providers` array of `config/app.php`
-    ```
-    Alimranahmed\EasyHttp\EasyHttpServiceProvider::class,
-    ```
-    
-    and following line in the `allias` array of the same file
-    
-    ```
-    'Http' => Alimranahmed\EasyHttp\Facades\Http::class,
-    ``` 
+```
+"require": {
+    "alimranahmed/easyhttp": "dev-master"
+}
+```
+then execute `composer update`, That's all
 
 ## Usages
 ```
