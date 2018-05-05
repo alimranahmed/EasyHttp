@@ -1,10 +1,8 @@
 <?php
 
-namespace Alimranahmed\LaraOCR;
+namespace Alimranahmed\EasyHttp;
 
-use Alimranahmed\LaraOCR\Commands\ImageParsing;
-use Alimranahmed\LaraOCR\Controllers\OcrController;
-use Alimranahmed\LaraOCR\Services\HttpCallable;
+use Alimranahmed\EasyHttp\Services\HttpCallable;
 use Illuminate\Support\ServiceProvider;
 
 class EasyHttpServiceProvider extends ServiceProvider
@@ -26,8 +24,6 @@ class EasyHttpServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->loadRoutesFrom(__DIR__.'/routes.php');
-
         $this->publishes([
             __DIR__ . '/../config/easy_http.php' => config_path('easy_http.php'),
         ]);
