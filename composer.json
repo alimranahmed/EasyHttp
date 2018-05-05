@@ -1,0 +1,38 @@
+{
+  "name": "alimranahmed/easyhttp",
+  "type": "library",
+  "keywords": ["http", "guzzle", "laravel"],
+  "description": "An easier Http client for laravel",
+  "license": "Apache 2.0",
+  "authors": [
+    {
+      "name": "Al Imran Ahmed",
+      "email": "al.imran.cse@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^7.0",
+    "guzzlehttp/guzzle": "~6.0",
+    "phpunit/phpunit": "^7"
+  },
+  "autoload": {
+    "psr-4": {
+      "Alimranahmed\\EasyHttp\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Alimranahmed\\EasyHttp\\EasyHttpServiceProvider"
+      ],
+      "aliases": {
+        "Http": "Alimranahmed\\EasyHttp\\Facades\\Http"
+      }
+    }
+  }
+}
