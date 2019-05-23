@@ -1,5 +1,5 @@
 # EasyHttp
-A Laravel HTTP-client to make HTTP request easier
+A Laravel 5 HTTP-client to make HTTP request easier. It's a wrape on Guzzle HTTP client that simplify the common requests and log the requests and response. 
 
 ## Installation 
 Update your project's `composer.json` file as bellow:
