@@ -1,6 +1,6 @@
 <?php
 
-namespace Alimranahmed\EasyHttp\Services;
+namespace AlImranAhmed\EasyHttp\Services;
 
 
 use Carbon\Carbon;
@@ -8,12 +8,13 @@ use Illuminate\Support\Facades\Log;
 
 class CurlHttp extends HttpCallable
 {
-    public function send($method, $url, $data, $headers = ["Content-Type" => "application/json"]) {
+    public function send(string $method, string $url, $data, $headers = ["Content-Type" => "application/json"])
+    {
         $method = strtoupper($method);
 
         $requestTime = Carbon::now();
 
-        $this->logRequest($method, $url, $data, $headers);
+        $this->logRequest($method, $url, $data, $headers, 'cURL');
 
         $builtHeader = [];
         foreach ($headers as $key => $header) {
@@ -47,29 +48,33 @@ class CurlHttp extends HttpCallable
         $result = curl_exec($ch);
 
         $responseTime = Carbon::now();
+        $taken = "Taken " . $responseTime->diffInSeconds($requestTime) . 's';
 
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-        Log::info("Respond with $httpCode; Taken " . $responseTime->diffInSeconds($requestTime) . 's');
+        $status = "Response from [$method][$url] with status: $httpCode";
 
-        return $this->formatResponse($result, $ch, $httpCode);
+        $response = $this->formatResponse($result, $ch, $httpCode);
+
+        $responseLine = '- Body: ' . $response->contents;
+
+        if ($httpCode >= 200 && $httpCode < 300) {
+            Log::info("$status; $taken\n $responseLine");
+        } elseif ((curl_errno($ch) || $httpCode != 200)) {
+            Log::error("$status; $taken\n $responseLine");
+            if (curl_error($ch)) {
+                Log::error('- CURL reported error: ' . curl_error($ch));
+            }
+        }
+        curl_close($ch);
+        return $response;
     }
 
-    private function formatResponse($result, $ch, $httpCode){
+    private function formatResponse($result, $ch, $httpCode)
+    {
         $response = new \stdClass();
         $response->contents = $result;
         $response->statusCode = $httpCode;
-
-        $responseLine = 'Data: '.$response->contents;
-
-        if($httpCode >= 200 && $httpCode < 300){
-            Log::info($responseLine);
-        }elseif((curl_errno($ch) || $httpCode != 200)){
-            Log::error($responseLine);
-            Log::error('CURL reported error: '.curl_error($ch));
-        }
-
-        curl_close($ch);
         return $response;
     }
 }

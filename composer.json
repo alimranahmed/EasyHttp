@@ -23,7 +23,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Alimranahmed\\EasyHttp\\": "src"
+      "AlImranAhmed\\EasyHttp\\": "src"
     }
   },
   "autoload-dev": {
@@ -34,10 +34,10 @@
   "extra": {
     "laravel": {
       "providers": [
-        "Alimranahmed\\EasyHttp\\EasyHttpServiceProvider"
+        "AlImranAhmed\\EasyHttp\\EasyHttpServiceProvider"
       ],
       "aliases": {
-        "Http": "Alimranahmed\\EasyHttp\\Facades\\Http"
+        "Http": "AlImranAhmed\\EasyHttp\\Facades\\Http"
       }
     }
   }

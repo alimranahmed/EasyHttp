@@ -1,7 +1,6 @@
 <?php
 
-namespace Alimranahmed\EasyHttp\Services;
-
+namespace AlImranAhmed\EasyHttp\Services;
 
 use Carbon\Carbon;
 use GuzzleHttp\Client;
@@ -10,7 +9,13 @@ use Illuminate\Support\Facades\Log;
 
 class GuzzleHttp extends HttpCallable
 {
-    public function __construct($url = null) {
+    /**
+     * @var Client
+     */
+    protected $client;
+
+    public function __construct($url = null)
+    {
         if (is_null($url)) {
             $this->client = new Client();
         } else {
@@ -24,15 +29,17 @@ class GuzzleHttp extends HttpCallable
      * @param $data
      * @param array $headers
      * @return mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function send($method, $url, $data, $headers = ["Content-Type" => "application/json"]) {
+    public function send(string $method, string $url, $data, $headers = ["Content-Type" => "application/json"])
+    {
         $method = strtoupper($method);
 
         $contentType = $headers['Content-Type'] ?? ($headers['content-type'] ?? '');
 
         $requestTime = Carbon::now();
 
-        $this->logRequest($method, $url, $data, $headers);
+        $this->logRequest($method, $url, $data, $headers, 'guzzle');
 
         $requestData['headers'] = $headers;
 
@@ -60,32 +67,40 @@ class GuzzleHttp extends HttpCallable
         try {
             $response = $this->client->request($method, $url, $requestData);
         } catch (RequestException $e) {
-            Log::error('Line: '.$e->getLine().' File: '.$e->getFile(). ' Error: '.$e->getMessage());
+            $this->logException($e);
             $response = $e->getResponse();
         }
 
         $responseTime = Carbon::now();
+        $taken = 'Taken ' . $responseTime->diffInSeconds($requestTime) . 's';
         try {
             if (is_null($response)) {
-                Log::error('Response is null');
+                $status = "Response from [$method][$url] is NULL";
+                Log::error("$status; $taken");
                 return null;
             }
             $response->contents = $response->getBody()->getContents();
+
             //This is for previous getContents() call, it change the stream to last
             $response->getBody()->seek(0);
         } catch (\Exception $exception) {
-            Log::error(Log::getLine($exception));
+            $this->logException($exception);
             return null;
         }
 
-        Log::info('Respond with: ' . $response->getStatusCode() . '; Taken ' . $responseTime->diffInSeconds($requestTime) . 's');
+        $status = "Response from [$method][$url] with status: " . $response->getStatusCode() . ' ' . $response->getReasonPhrase();
 
         if ($response->getStatusCode() >= 200 && $response->getStatusCode() < 300) {
-            Log::info('Data: ' . $response->contents);
+            Log::info("$status; $taken\n - Body: " . $response->contents);
         } else {
-            Log::error('Data: ' . $response->contents);
+            Log::error("$status; $taken\n - Body: " . $response->contents);
         }
 
         return $response;
+    }
+
+    private function logException(\Exception $e)
+    {
+        Log::error('Line: ' . $e->getLine() . ' File: ' . $e->getFile() . ' Error: ' . $e->getMessage());
     }
 }
