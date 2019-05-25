@@ -41,7 +41,7 @@ $response->getHeaders(); //for headers
 $response->contents; //for body
 ```
 
-To make any request using cURL we can simply use the `useing()` method as below:
+To make any request using cURL we can simply use the `using()` method as below:
  
 ```php
 <?php
