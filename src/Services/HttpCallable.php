@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Log;
 
 abstract class HttpCallable
 {
-    public abstract function send(string $method, string $url, $data, $headers);
+    public abstract function send(string $method, string $url, $data, array $headers);
 
     public function post($url, $data = [], $headers = ["Content-Type" => "application/json"])
     {

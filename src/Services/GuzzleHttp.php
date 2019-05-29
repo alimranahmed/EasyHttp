@@ -31,7 +31,7 @@ class GuzzleHttp extends HttpCallable
      * @return mixed|\Psr\Http\Message\ResponseInterface
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function send(string $method, string $url, $data, $headers = ["Content-Type" => "application/json"])
+    public function send(string $method, string $url, $data, array $headers = ["Content-Type" => "application/json"])
     {
         $method = strtoupper($method);
 

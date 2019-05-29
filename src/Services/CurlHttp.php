@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 
 class CurlHttp extends HttpCallable
 {
-    public function send(string $method, string $url, $data, $headers = ["Content-Type" => "application/json"])
+    public function send(string $method, string $url, $data, array $headers = ["Content-Type" => "application/json"])
     {
         $method = strtoupper($method);
 
